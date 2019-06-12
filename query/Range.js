@@ -6,10 +6,7 @@ class Range extends Handler {
     }
 
     handleFunc(ctx) {
-        if (ctx.break) {
-            return;
-        }
-        
+        ctx.iterator.add(start + ctx.iterator.cursor * step);
     }
 }
 

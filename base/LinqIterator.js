@@ -3,6 +3,10 @@ class LinqIterator {
         this.collection = collection;
         this.cursor = 0;
     }
+    
+    add(arg) {
+        this.collection[this.cursor] = arg;
+    }
 
     current() {
         return this.collection[this.cursor];

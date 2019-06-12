@@ -11,10 +11,11 @@ class Handler {
         } catch (error) {
             ctx.err = error;
         } finally {
-            if (this.next) {
+            if (this.next && !ctx.break) {
                 this.next.handle(ctx);
+            } else {
+                return ctx;
             }
-            // else { return ...}
         }
     }
 }

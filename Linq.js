@@ -1,4 +1,5 @@
 const Collection = require('./base/Collection');
+const First = require('./result/first');
 const Handler = require('./query/cor/handler');
 const Range = require('./query/Range');
 const Select = require('./query/Select');
@@ -21,32 +22,36 @@ class Linq extends Collection {
     first() {
         while (this.iterator.hasNext()) {
             let res = this.handler.handle({
-                item: this.iterator.current()
+                iterator: this.iterator
             });
-            if (res) {
-                return res;
+            if (!res.break) {
+                return res.iterator.current();
             }
 
             this.iterator.next();
         }
     }
 
-    range(...args) {
+    range(start, end, step) {
+        this.createIterator([]);
         this.handler.setNext(
-            new Range(args)
+            new Range(start, end, step)
         );
+        return this;
     }
 
-    select() {
+    select(assert) {
         this.handler.setNext(
-            new Select()
+            new Select(assert)
         );
+        return this;
     }
 
-    where() {
+    where(assert) {
         this.handler.setNext(
-            new Where()
+            new Where(assert)
         );
+        return this;
     }
 }
 
