@@ -1,21 +1,24 @@
 class Handler {
     setNext(next) {
-        this.next = next;
+        let temp = this;
+        while(temp.next) {
+            temp = temp.next;
+        }
+        temp.next = next;
     }
 
-    async handle(ctx) {
+    handle(ctx) {
         try {
             if (this.handleFunc) {
-                await this.handleFunc(ctx);
+                this.handleFunc(ctx);
             }
         } catch (error) {
             ctx.err = error;
         } finally {
-            if (this.next && !ctx.break) {
+            if (this.next && ctx.checked) {
                 this.next.handle(ctx);
-            } else {
-                return await ctx;
             }
+            return ctx;
         }
     }
 }

@@ -7,10 +7,6 @@ class Range extends Handler {
     }
 
     handleFunc(ctx) {
-        // if (ctx.collection[ctx.collection.length - 1] >= this.args[1] - this.args[2]) {
-        //     ctx.break = true;
-        //     return;
-        // }
         ctx.iterator.collection[ctx.iterator.cursor] = this.args[0] + ctx.iterator.cursor * this.args[2];
     }
 }

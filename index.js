@@ -17,33 +17,42 @@ class Linq {
         this.handler = new Handler();
     }
 
+    all() {
+        return this.iterate();
+    }
+
     first() {
+        return this.iterate(true);
+    }
+
+    from(collection) {
+        this.linqCollection = new LinqCollection(collection);
+        return this;
+    }
+
+    iterate(first) {
         if (!this.linqCollection)
             throw new Error('请传入数据源');
 
         let iterator = this.linqCollection.createIterator();
         let slice = [];
         while (iterator.hasNext()) {
-            this.handler.handle({
-                iterator: iterator
-            }).then(res => {
-                console.log(res);
+            let res = this.handler.handle({
+                iterator: iterator,
+                checked: true
             });
-            // if (res.break) {
-            //     break;
-            // }
 
-            // console.log(res);
-            // slice.push(res.iterator.current());
+            if (res.checked) {
+                slice.push(res.iterator.current());
+            }
+
+            if (first && slice.length == 1) {
+                break;
+            }
 
             iterator.next();
         }
         return slice;
-    }
-
-    from(collection) {
-        this.linqCollection = new LinqCollection(collection);
-        return this;
     }
 
     range(start, end, step) {
@@ -58,12 +67,18 @@ class Linq {
         return this;
     }
 
-    select() {
-
+    select(assert) {
+        this.handler.setNext(
+            new Select(assert)
+        );
+        return this;
     }
 
-    where() {
-
+    where(assert) {
+        this.handler.setNext(
+            new Where(assert)
+        );
+        return this;
     }
 }
 

@@ -1,11 +1,14 @@
-class Select {
+const Handler = require('./cor/handler');
+
+class Select extends Handler{
     constructor(assert) {
-        this.assert = assert || function () {
-            
-        };
+        super();
+        this.assert = assert;
     }
 
     handleFunc(ctx) {
-        this.assert(ctx.iterator.current());
+        ctx.iterator.collection[ctx.iterator.cursor] = this.assert(ctx.iterator.collection[ctx.iterator.cursor]);
     }
 }
+
+module.exports = Select;
