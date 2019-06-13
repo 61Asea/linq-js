@@ -4,10 +4,6 @@ class LinqIterator {
         this.cursor = 0;
     }
     
-    add(arg) {
-        this.collection[this.cursor] = arg;
-    }
-
     current() {
         return this.collection[this.cursor];
     }
@@ -21,8 +17,9 @@ class LinqIterator {
     }
 
     next() {
+        let current = this.current();
         this.cursor += 1;
-        return this.collection[this.cursor];
+        return current;
     }
 }
 

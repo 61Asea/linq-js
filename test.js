@@ -8,4 +8,7 @@
 
 // console.log(res);
 
-const Linq = require('./Linq');
+const Linq = require('./index');
+
+let res = new Linq().range(1, 20, 1).first();
+// console.log(res);

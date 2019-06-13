@@ -14,8 +14,10 @@ class Handler {
             if (this.next && !ctx.break) {
                 this.next.handle(ctx);
             } else {
-                return ctx;
+                return await ctx;
             }
         }
     }
 }
+
+module.exports = Handler;
